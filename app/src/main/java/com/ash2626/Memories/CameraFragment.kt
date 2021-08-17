@@ -29,10 +29,8 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import androidx.activity.result.ActivityResultLauncher
-
-
-
-
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class CameraFragment : Fragment() {
 
@@ -41,6 +39,7 @@ class CameraFragment : Fragment() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var thiscontext: Context
     private lateinit var viewfinder: PreviewView
+    private val storage = Firebase.storage
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -71,6 +70,9 @@ class CameraFragment : Fragment() {
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
 
+
+
+
         // Inflate the layout for this fragment
         return rootView
     }
@@ -78,6 +80,9 @@ class CameraFragment : Fragment() {
     private fun takePhoto(){
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
+
+        //create a reference to the firebase storage location
+        val storageRef = storage.reference
 
         // Create time-stamped output file to hold the image
         val photoFile = File(
@@ -87,6 +92,10 @@ class CameraFragment : Fragment() {
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+        //create a reference to the file to be uploaded to the firebase storage location
+
+
 
         // Set up image capture listener, which is triggered after photo has
         // been taken
@@ -98,13 +107,22 @@ class CameraFragment : Fragment() {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
+                    val photoRef = storageRef.child("images/${savedUri.lastPathSegment}")
+                    val uploadTask = photoRef.putFile(savedUri)
+
+                    // Register observers to listen for when the download is done or if it fails
+                    uploadTask.addOnFailureListener {
+                        // Handle unsuccessful uploads
+                    }.addOnSuccessListener { taskSnapshot ->
+                        // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                        // ...
+                    }
+
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(thiscontext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
             })
-
-
     }
 
     private fun startCamera(viewfinder: PreviewView) {
