@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Memories</string>
+
+    <string-array name="Events">
+        <item></item>
+        <item>Event 1</item>
+        <item>Event 2</item>
+        <item>Event 3</item>
+        <item>Event 4</item>
+        <item>Event 5</item>
+        <item>Event 6</item>
+        <item>Event 7</item>
+        <item>Event 8</item>
+    </string-array>
+
 </resources>

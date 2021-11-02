@@ -2,8 +2,6 @@ package com.ash2626.Memories
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -19,18 +17,19 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.ash2626.memories.R
+import com.google.firebase.auth.FirebaseUserMetadata
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import androidx.activity.result.ActivityResultLauncher
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+
 
 class CameraFragment : Fragment() {
 
@@ -70,9 +69,6 @@ class CameraFragment : Fragment() {
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-
-
-
         // Inflate the layout for this fragment
         return rootView
     }
@@ -106,8 +102,9 @@ class CameraFragment : Fragment() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    val currentUserEmail = Firebase.auth.currentUser?.email
                     val savedUri = Uri.fromFile(photoFile)
-                    val photoRef = storageRef.child("images/${savedUri.lastPathSegment}")
+                    val photoRef = storageRef.child("${currentUserEmail}/${savedUri.lastPathSegment}")
                     val uploadTask = photoRef.putFile(savedUri)
 
                     // Register observers to listen for when the download is done or if it fails

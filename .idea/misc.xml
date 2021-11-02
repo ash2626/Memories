@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/activity_main.xml" value="0.13402061855670103" />
         <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/fragment_camera_fragment.xml" value="0.1793478260869565" />
       </map>
     </option>
