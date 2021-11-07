@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/eventPickerFragment">
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.ash2626.Memories.CameraFragment"
+        android:label="CameraFragment" />
+    <fragment
+        android:id="@+id/eventPickerFragment"
+        android:name="com.ash2626.Memories.EventPickerFragment"
+        android:label="EventPickerFragment">
+        <action
+            android:id="@+id/action_eventPickerFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+</navigation>
