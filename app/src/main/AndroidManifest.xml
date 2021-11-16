@@ -3,6 +3,7 @@
     package="com.ash2626.memories">
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,9 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CameraX">
         <activity
+            android:name="com.ash2626.Memories.EventPickerModel"
+            android:exported="false"
+            android:label="@string/title_activity_event_picker_model"
+            android:theme="@style/Theme.CameraX.NoActionBar" />
+        <activity
             android:name="com.ash2626.Memories.Login"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name="com.ash2626.Memories.MainActivity"
             android:exported="true">

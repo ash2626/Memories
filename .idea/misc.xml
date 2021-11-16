@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/content_event_picker_model.xml" value="0.125" />
         <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/fragment_camera_fragment.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/fragment_event_picker.xml" value="0.264" />
+        <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/fragment_first.xml" value="0.125" />
+        <entry key="..\:/Users/ash26/StudioProjects/app/src/main/res/layout/fragment_second.xml" value="0.125" />
       </map>
     </option>
   </component>
