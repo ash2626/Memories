@@ -32,23 +32,31 @@ class EventPickerFragment : Fragment() {
         var numericPassword = view.findViewById<EditText>(R.id.numberPassword)
 
 
-        eventList = viewModel.getEventList()
+
 
 
         numericPassword?.setOnEditorActionListener() { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 //check numeric code and launch startActivity() if correct
 
-
-
-                Log.d("memories-d", "Login Success")
-                val action = EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
-                view.findNavController().navigate(action)
+                eventList = viewModel.getEventList()
+                for ((event,identifier) in eventList) {
+                    Log.d("memories-d","value of $event is $identifier")
+                    Log.d("memories-d","value of numeric password is "+ numericPassword.text)
+                    if(identifier == numericPassword.text.toString())
+                    {
+                        Log.d("memories-d", "Login Success")
+                        viewModel.event = event
+                        val action = EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
+                        view.findNavController().navigate(action)
+                    }
+                    else{
+                        Log.d("memories-d", "Login Failed")
+                    }
+                }
                 true
-            } else {
-                Log.d("memories-d", "Login Failed")
-                false
             }
+            false
         }
 
         return view

@@ -14,11 +14,13 @@ import kotlinx.coroutines.withContext
 class EventPickerModel: ViewModel() {
 
     private var _eventList = mutableMapOf<String,String>()
+    lateinit var event: String
 
     init{
         Log.d("memories-d","EventPickerViewModel Created")
         viewModelScope.launch { dbEventsList() }
     }
+
 
    fun setEventList(event: String, identifier: String){
         _eventList.put(event, identifier)
