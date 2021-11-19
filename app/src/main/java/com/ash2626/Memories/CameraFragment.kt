@@ -49,6 +49,7 @@ class CameraFragment : Fragment() {
         val button = rootView.findViewById<Button>(R.id.camera_capture_button)
         viewfinder = rootView.findViewById<PreviewView>(R.id.viewFinder)
 
+        //TODO How do I deal with a user who has previously denied camera access?
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -156,6 +157,7 @@ class CameraFragment : Fragment() {
         }, ContextCompat.getMainExecutor(thiscontext))
     }
 
+    //TODO update photo folder with event from login
     private fun getOutputDirectory(): File {
         val mediaDIR = activity?.externalMediaDirs?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }

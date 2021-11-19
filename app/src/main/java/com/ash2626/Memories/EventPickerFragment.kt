@@ -31,26 +31,24 @@ class EventPickerFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_event_picker, container, false)
         var numericPassword = view.findViewById<EditText>(R.id.numberPassword)
 
-
-
-
-
         numericPassword?.setOnEditorActionListener() { v, actionId, event ->
-            if(actionId == EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 //check numeric code and launch startActivity() if correct
+                //TODO need to make code persistent so user doesn't login everytime
 
                 eventList = viewModel.getEventList()
-                for ((event,identifier) in eventList) {
-                    Log.d("memories-d","value of $event is $identifier")
-                    Log.d("memories-d","value of numeric password is "+ numericPassword.text)
-                    if(identifier == numericPassword.text.toString())
-                    {
+
+                //TODO is there a more efficient way to search a map then looping through every item?
+                for ((event, identifier) in eventList) {
+                    if (identifier == numericPassword.text.toString()) {
                         Log.d("memories-d", "Login Success")
                         viewModel.event = event
-                        val action = EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
+                        val action =
+                            EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
                         view.findNavController().navigate(action)
                     }
-                    else{
+                    else {
+                        //TODO better way of dealing with login failure
                         Log.d("memories-d", "Login Failed")
                     }
                 }
@@ -58,11 +56,6 @@ class EventPickerFragment : Fragment() {
             }
             false
         }
-
         return view
-
     }
-
-
-
 }
