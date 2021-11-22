@@ -91,8 +91,6 @@ class CameraFragment : Fragment() {
 
         //create a reference to the file to be uploaded to the firebase storage location
 
-
-
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
@@ -102,9 +100,11 @@ class CameraFragment : Fragment() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+                    val status = sharedPref?.getString("Event", "0")
                     val currentUserEmail = Firebase.auth.currentUser?.email
                     val savedUri = Uri.fromFile(photoFile)
-                    val photoRef = storageRef.child("${currentUserEmail}/${savedUri.lastPathSegment}")
+                    val photoRef = storageRef.child(status+"/${currentUserEmail}/${savedUri.lastPathSegment}")
                     val uploadTask = photoRef.putFile(savedUri)
 
                     // Register observers to listen for when the download is done or if it fails
@@ -157,7 +157,6 @@ class CameraFragment : Fragment() {
         }, ContextCompat.getMainExecutor(thiscontext))
     }
 
-    //TODO update photo folder with event from login
     private fun getOutputDirectory(): File {
         val mediaDIR = activity?.externalMediaDirs?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }

@@ -1,5 +1,6 @@
 package com.ash2626.Memories
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,12 +11,13 @@ import android.widget.EditText
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.ash2626.memories.R
 
 class EventPickerFragment : Fragment() {
 
     private lateinit var viewModel: EventPickerModel
-    private lateinit var eventList: MutableMap<String,String>
+    private lateinit var eventList: MutableMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,36 +27,54 @@ class EventPickerFragment : Fragment() {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         // Inflate the layout for this fragment and find ref to UI component
-        var view = inflater.inflate(R.layout.fragment_event_picker, container, false)
-        var numericPassword = view.findViewById<EditText>(R.id.numberPassword)
+        val view = inflater.inflate(R.layout.fragment_event_picker, container, false)
+        val numericPassword = view.findViewById<EditText>(R.id.numberPassword)
 
-        numericPassword?.setOnEditorActionListener() { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                //check numeric code and launch startActivity() if correct
-                //TODO need to make code persistent so user doesn't login everytime
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val status = sharedPref?.getString("Status", "0")
 
-                eventList = viewModel.getEventList()
+        if (status == "Logged In") {
+            //Navigate to camera fragment
+            val navController = findNavController()
+            navController.navigate(R.id.cameraFragment)
 
-                //TODO is there a more efficient way to search a map then looping through every item?
-                for ((event, identifier) in eventList) {
-                    if (identifier == numericPassword.text.toString()) {
+        } else {
+            numericPassword?.setOnEditorActionListener() { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    //check numeric code and launch startActivity() if correct
+
+                    eventList = viewModel.getEventList()
+
+                    if (eventList.containsKey(numericPassword.text.toString())) {
                         Log.d("memories-d", "Login Success")
-                        viewModel.event = event
+
+                        //Save current event details to shared preferences
+                        with(sharedPref!!.edit()) {
+                            putString("Event", eventList.getValue(numericPassword.text.toString()))
+                            putString("Identifier", numericPassword.text.toString())
+                            putString("Status","Logged In")
+                            apply()
+                        }
+
+                        //Navigate to camera fragment
                         val action =
                             EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
                         view.findNavController().navigate(action)
-                    }
-                    else {
+
+                    } else {
                         //TODO better way of dealing with login failure
                         Log.d("memories-d", "Login Failed")
                     }
                 }
-                true
+                false
             }
-            false
         }
         return view
     }

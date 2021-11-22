@@ -14,13 +14,11 @@ import kotlinx.coroutines.withContext
 class EventPickerModel: ViewModel() {
 
     private var _eventList = mutableMapOf<String,String>()
-    lateinit var event: String
 
     init{
         Log.d("memories-d","EventPickerViewModel Created")
         viewModelScope.launch { dbEventsList() }
     }
-
 
    fun setEventList(event: String, identifier: String){
         _eventList.put(event, identifier)
@@ -45,7 +43,7 @@ class EventPickerModel: ViewModel() {
 
                     for (document in result) {
                         Log.d("memories-d", "${document.id} => ${document.data}")
-                        setEventList(document.get("Event").toString(), document.get("identifier").toString())
+                        setEventList(document.get("identifier").toString(),document.get("Event").toString())
                     }
                 }
                 .addOnFailureListener { exception ->
