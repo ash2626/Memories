@@ -49,7 +49,6 @@ class CameraFragment : Fragment() {
         val button = rootView.findViewById<Button>(R.id.camera_capture_button)
         viewfinder = rootView.findViewById<PreviewView>(R.id.viewFinder)
 
-        //TODO How do I deal with a user who has previously denied camera access?
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -58,9 +57,9 @@ class CameraFragment : Fragment() {
                     startCamera(viewfinder)
                 } else {
                     Toast.makeText(requireContext(),
-                        "Permissions not granted by the user.",
+                        "Camera permission denied by the user.",
                         Toast.LENGTH_SHORT).show()
-                    activity?.finish()
+                        activity?.finish()
                 }
             }
         requestPermissionLauncher.launch(REQUIRED_PERMISSIONS)

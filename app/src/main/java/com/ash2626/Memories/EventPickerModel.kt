@@ -2,8 +2,9 @@ package com.ash2626.Memories
 
 import android.content.ContentValues
 import android.util.Log
+import androidx.databinding.Observable
+import androidx.databinding.ObservableArrayMap
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -11,28 +12,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class EventPickerModel: ViewModel() {
+class EventPickerModel : ViewModel() {
 
-    private var _eventList = mutableMapOf<String,String>()
+    //private var _eventList = mutableMapOf<String,String>()
+    var _eventList = ObservableArrayMap<String, String>()
 
-    init{
-        Log.d("memories-d","EventPickerViewModel Created")
+
+    fun getEventList(): MutableMap<String, String> {
+        return _eventList
+    }
+
+    fun updateEventsList() {
+        Log.d("memories-d", "EventPickerViewModel Created")
         viewModelScope.launch { dbEventsList() }
     }
 
-   fun setEventList(event: String, identifier: String){
-        _eventList.put(event, identifier)
-   }
-
-   fun getEventList(): MutableMap<String,String> {
-       return _eventList
-   }
-
-    suspend fun dbEventsList() {
+    private suspend fun dbEventsList() {
 
         Log.d("memories-d", " DatabaseEventsList update started")
 
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
 
             val db = Firebase.firestore
 
@@ -43,7 +42,10 @@ class EventPickerModel: ViewModel() {
 
                     for (document in result) {
                         Log.d("memories-d", "${document.id} => ${document.data}")
-                        setEventList(document.get("identifier").toString(),document.get("Event").toString())
+                        _eventList.put(
+                            document.get("identifier").toString(),
+                            document.get("Event").toString()
+                        )
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -52,4 +54,5 @@ class EventPickerModel: ViewModel() {
         }
 
     }
+
 }

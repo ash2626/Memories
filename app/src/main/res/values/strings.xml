@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Memories</string>
-
+    <string name ="loginExpiration">3</string>
     <string name ="title_activity_event_picker_model">Event Picker</string>
-
 </resources>
