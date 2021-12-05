@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.ash2626.Memories"
         minSdk 21
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -57,6 +57,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.databinding:databinding-runtime:7.0.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
 
 
     def camerax_version = '1.0.2'

@@ -1,9 +1,10 @@
-package com.ash2626.Memories
+package com.ash2626.Memories.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.ash2626.Memories.MainActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -56,7 +57,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun launchNextFragment(){
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 

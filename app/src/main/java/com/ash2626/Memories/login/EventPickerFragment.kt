@@ -1,7 +1,6 @@
-package com.ash2626.Memories
+package com.ash2626.Memories.login
 
 import android.content.Context
-import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,24 +10,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.core.graphics.convertTo
-import androidx.core.util.TimeUtils
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.ash2626.memories.R
-import java.lang.String.format
-import java.lang.System.currentTimeMillis
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.time.Duration
-import kotlin.time.toDuration
 
+
+//TODO: Generate an event code rather than request a pre-defined one
 class EventPickerFragment : Fragment() {
 
     private val viewModel: EventPickerModel by activityViewModels()
@@ -57,7 +45,7 @@ class EventPickerFragment : Fragment() {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val lastLogin = sharedPref?.getLong("lastLogin",0)
 
-        //Work out time since last succesful togin
+        //Work out time since last successful login
         val diff = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - lastLogin!!)
         val loginExpiration: String = getString(R.string.loginExpiration)
         val expirationInt: Int = loginExpiration.toInt()
@@ -66,7 +54,7 @@ class EventPickerFragment : Fragment() {
             //Navigate to camera fragment
             Log.d("memories-d", "Event already Logged In")
             val navController = findNavController()
-            navController.navigate(R.id.cameraFragment)
+            navController.navigate(R.id.Camera_Fragment)
         } else {
             numericPassword?.setOnEditorActionListener() { v, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -84,9 +72,9 @@ class EventPickerFragment : Fragment() {
                         }
 
                         //Navigate to camera fragment
-                        val action =
-                            EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
-                        view.findNavController().navigate(action)
+                        //val action =
+                            //EventPickerFragmentDirections.actionEventPickerFragmentToCameraFragment()
+                        //view.findNavController().navigate(action)
 
                     } else {
                         Log.d("memories-d", "Login Failed")

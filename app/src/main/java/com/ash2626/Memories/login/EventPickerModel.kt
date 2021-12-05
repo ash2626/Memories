@@ -1,9 +1,7 @@
-package com.ash2626.Memories
+package com.ash2626.Memories.login
 
 import android.content.ContentValues
 import android.util.Log
-import androidx.databinding.Observable
-import androidx.databinding.ObservableArrayMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
@@ -14,9 +12,7 @@ import kotlinx.coroutines.withContext
 
 class EventPickerModel : ViewModel() {
 
-    //private var _eventList = mutableMapOf<String,String>()
-    var _eventList = ObservableArrayMap<String, String>()
-
+    private var _eventList = mutableMapOf<String,String>()
 
     fun getEventList(): MutableMap<String, String> {
         return _eventList
@@ -42,17 +38,13 @@ class EventPickerModel : ViewModel() {
 
                     for (document in result) {
                         Log.d("memories-d", "${document.id} => ${document.data}")
-                        _eventList.put(
-                            document.get("identifier").toString(),
-                            document.get("Event").toString()
-                        )
+                        document.get("identifier").toString()
+                        document.get("Event").toString()
                     }
                 }
                 .addOnFailureListener { exception ->
                     Log.w(ContentValues.TAG, "Error getting documents.", exception)
                 }
         }
-
     }
-
 }

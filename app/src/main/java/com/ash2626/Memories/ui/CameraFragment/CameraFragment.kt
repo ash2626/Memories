@@ -1,4 +1,4 @@
-package com.ash2626.Memories
+package com.ash2626.Memories.ui.CameraFragment
 
 import android.Manifest
 import android.content.Context
@@ -28,6 +28,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import androidx.appcompat.app.AppCompatActivity
+
+
+
 
 
 class CameraFragment : Fragment() {
@@ -45,9 +49,11 @@ class CameraFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_camera_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.camera_fragment, container, false)
         val button = rootView.findViewById<Button>(R.id.camera_capture_button)
         viewfinder = rootView.findViewById<PreviewView>(R.id.viewFinder)
+
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -82,7 +88,8 @@ class CameraFragment : Fragment() {
         // Create time-stamped output file to hold the image
         val photoFile = File(
             outputDirectory,
-            SimpleDateFormat(FILENAME_FORMAT, Locale.US
+            SimpleDateFormat(
+                FILENAME_FORMAT, Locale.US
             ).format(System.currentTimeMillis()) + ".jpg")
 
         // Create output options object which contains file + metadata
